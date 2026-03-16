@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ece'ye Özel Masallar</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Yıldız canvas -->
+<canvas id="stars-canvas"></canvas>
+
+<!-- Orman arka planı -->
+<div class="forest-bg">
+    <svg class="forest-svg" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Arka ağaçlar (soluk) -->
+        <g fill="#081a08" opacity="0.6">
+            <polygon points="60,320 80,220 100,320"/>
+            <polygon points="75,320 95,200 115,320"/>
+            <polygon points="55,320 82,185 109,320"/>
+            <polygon points="180,320 205,210 230,320"/>
+            <polygon points="195,320 220,190 245,320"/>
+            <polygon points="340,320 365,215 390,320"/>
+            <polygon points="360,320 382,195 404,320"/>
+            <polygon points="490,320 518,205 546,320"/>
+            <polygon points="520,320 545,185 570,320"/>
+            <polygon points="650,320 678,220 706,320"/>
+            <polygon points="670,320 695,198 720,320"/>
+            <polygon points="800,320 825,210 850,320"/>
+            <polygon points="820,320 845,192 870,320"/>
+            <polygon points="950,320 978,205 1006,320"/>
+            <polygon points="970,320 998,185 1026,320"/>
+            <polygon points="1100,320 1128,215 1156,320"/>
+            <polygon points="1120,320 1145,195 1170,320"/>
+            <polygon points="1260,320 1285,210 1310,320"/>
+            <polygon points="1280,320 1305,190 1330,320"/>
+            <polygon points="1390,320 1415,205 1440,320"/>
+        </g>
+        <!-- Ön ağaçlar (koyu) -->
+        <g fill="#050f05" opacity="0.9">
+            <polygon points="0,320 25,230 50,320"/>
+            <polygon points="10,320 40,205 70,320"/>
+            <polygon points="0,320 30,215 60,320"/>
+            <polygon points="120,320 150,195 180,320"/>
+            <polygon points="140,320 168,175 196,320"/>
+            <polygon points="130,320 162,185 194,320"/>
+            <polygon points="260,320 292,200 324,320"/>
+            <polygon points="280,320 308,180 336,320"/>
+            <polygon points="410,320 442,195 474,320"/>
+            <polygon points="430,320 460,170 490,320"/>
+            <polygon points="555,320 590,200 625,320"/>
+            <polygon points="580,320 612,175 644,320"/>
+            <polygon points="700,320 735,195 770,320"/>
+            <polygon points="725,320 758,172 791,320"/>
+            <polygon points="850,320 885,198 920,320"/>
+            <polygon points="872,320 905,175 938,320"/>
+            <polygon points="1000,320 1035,200 1070,320"/>
+            <polygon points="1022,320 1055,178 1088,320"/>
+            <polygon points="1150,320 1185,195 1220,320"/>
+            <polygon points="1172,320 1205,172 1238,320"/>
+            <polygon points="1300,320 1335,200 1370,320"/>
+            <polygon points="1320,320 1355,178 1390,320"/>
+            <polygon points="1400,320 1425,210 1450,320"/>
+            <polygon points="1380,320 1410,188 1440,320"/>
+        </g>
+    </svg>
+</div>
+
+<!-- Sis -->
+<div class="mist mist-1"></div>
+<div class="mist mist-2"></div>
+
+<!-- Ateşböcekleri -->
+<div id="fireflies"></div>
+
+<!-- ===================== AÇILIŞ SAYFASI ===================== -->
+<section id="scene-landing" class="scene active">
+    <div class="landing-content">
+        <p class="dear-text">Sevgili Ece,</p>
+        <h1 class="main-title">
+            <span class="title-line-1">Sana Özel</span>
+            <span class="title-line-2">✨ Masallar ✨</span>
+        </h1>
+        <p class="landing-subtitle">Büyülü bir dünyaya adım atmaya hazır mısın?</p>
+        <button class="magic-btn" id="btn-enter">
+            <span class="btn-text">Masallara Gir</span>
+            <div class="btn-glow"></div>
+        </button>
+    </div>
+</section>
+
+<!-- ===================== MASAL LİSTESİ ===================== -->
+<section id="scene-list" class="scene">
+    <div class="list-header">
+        <button class="back-btn" id="btn-back-landing">
+            ← Geri
+        </button>
+        <h2 class="list-title">✨ Masallar ✨</h2>
+    </div>
+    <div class="stories-grid" id="stories-grid"></div>
+</section>
+
+<!-- ===================== KİTAP OKUYUCU ===================== -->
+<section id="scene-reader" class="scene">
+    <button class="back-btn reader-back" id="btn-back-list">
+        ← Masallara Dön
+    </button>
+
+    <div class="book-area">
+        <div class="book-wrapper" id="book-wrapper">
+
+            <!-- Sol sayfa -->
+            <div class="book-page page-left" id="page-left">
+                <div class="page-inner">
+                    <div class="page-decor top-left"></div>
+                    <div class="page-text" id="text-left"></div>
+                    <div class="page-num" id="num-left"></div>
+                    <div class="page-decor bottom-right"></div>
+                </div>
+            </div>
+
+            <!-- Kitap sırtı -->
+            <div class="book-spine"></div>
+
+            <!-- Sağ sayfa -->
+            <div class="book-page page-right" id="page-right">
+                <div class="page-inner">
+                    <div class="page-decor top-right"></div>
+                    <div class="page-text" id="text-right"></div>
+                    <div class="page-num" id="num-right"></div>
+                    <div class="page-decor bottom-left"></div>
+                </div>
+            </div>
+
+            <!-- Sayfa çevirme animasyonu (ileri) -->
+            <div class="flipper-wrap" id="flipper-fwd" style="display:none;">
+                <div class="flipper" id="flipper-fwd-inner">
+                    <div class="flipper-front">
+                        <div class="page-inner">
+                            <div class="page-text" id="flip-fwd-front"></div>
+                        </div>
+                    </div>
+                    <div class="flipper-back">
+                        <div class="page-inner">
+                            <div class="page-text" id="flip-fwd-back"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sayfa çevirme animasyonu (geri) -->
+            <div class="flipper-wrap flipper-wrap-left" id="flipper-bwd" style="display:none;">
+                <div class="flipper" id="flipper-bwd-inner">
+                    <div class="flipper-front">
+                        <div class="page-inner">
+                            <div class="page-text" id="flip-bwd-front"></div>
+                        </div>
+                    </div>
+                    <div class="flipper-back">
+                        <div class="page-inner">
+                            <div class="page-text" id="flip-bwd-back"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Kontroller -->
+        <div class="book-controls">
+            <button class="nav-btn" id="btn-prev">❮</button>
+            <span class="spread-counter" id="spread-counter"></span>
+            <button class="nav-btn" id="btn-next">❯</button>
+        </div>
+    </div>
+</section>
+
+<script src="index.js"></script>
+</body>
+</html>

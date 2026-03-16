@@ -1,0 +1,809 @@
+/* =========================================
+   TEMEL AYARLAR
+   ========================================= */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --sky-top: #050318;
+    --sky-mid: #0d0a2e;
+    --sky-bottom: #0a1f0a;
+    --forest-dark: #040d04;
+    --gold: #f0c060;
+    --gold-light: #ffe08a;
+    --cream: #fdf6e3;
+    --cream-dark: #f0e6cc;
+    --parchment: #f5ead4;
+    --ink: #2c1a0e;
+    --ink-light: #3d2a1a;
+    --pink: #ffb3d1;
+    --star-color: #fffde0;
+    --firefly: #b8ff60;
+    --spine-color: #1a0a30;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--sky-top);
+    font-family: 'Crimson Text', Georgia, serif;
+}
+
+/* =========================================
+   YILDIZ CANVAS
+   ========================================= */
+#stars-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* =========================================
+   ORMAN ARKA PLANI
+   ========================================= */
+.forest-bg {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.forest-svg {
+    width: 100%;
+    height: 220px;
+    display: block;
+}
+
+/* =========================================
+   SİS
+   ========================================= */
+.mist {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 120px;
+    z-index: 2;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+.mist-1 {
+    background: radial-gradient(ellipse at center bottom, rgba(13, 74, 40, 0.25) 0%, transparent 70%);
+    animation: mistDrift 18s ease-in-out infinite alternate;
+}
+
+.mist-2 {
+    background: radial-gradient(ellipse at 60% bottom, rgba(30, 10, 80, 0.18) 0%, transparent 65%);
+    animation: mistDrift 24s ease-in-out infinite alternate-reverse;
+    height: 80px;
+}
+
+@keyframes mistDrift {
+    0% { transform: translateX(-5%); }
+    100% { transform: translateX(5%); }
+}
+
+/* =========================================
+   ATEŞBÖCEKLERİ
+   ========================================= */
+#fireflies {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.firefly {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--firefly);
+    box-shadow: 0 0 6px 2px rgba(180, 255, 80, 0.7), 0 0 12px 4px rgba(180, 255, 80, 0.3);
+    animation: fireflyFloat var(--duration) ease-in-out infinite, fireflyBlink var(--blink) ease-in-out infinite;
+}
+
+@keyframes fireflyFloat {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(var(--dx1), var(--dy1)); }
+    50%  { transform: translate(var(--dx2), var(--dy2)); }
+    75%  { transform: translate(var(--dx3), var(--dy3)); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes fireflyBlink {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 0.1; }
+}
+
+/* =========================================
+   SAHNELER (GENEL)
+   ========================================= */
+.scene {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+}
+
+.scene.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* =========================================
+   AÇILIŞ SAYFASI
+   ========================================= */
+.landing-content {
+    text-align: center;
+    z-index: 10;
+    padding: 2rem;
+    animation: fadeUp 1.2s ease forwards;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.dear-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--pink);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 20px rgba(255, 179, 209, 0.5);
+    letter-spacing: 0.05em;
+}
+
+.main-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 1.2rem;
+}
+
+.title-line-1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: var(--cream);
+    letter-spacing: 0.15em;
+    font-weight: 400;
+    text-shadow: 0 0 30px rgba(240, 192, 96, 0.4);
+}
+
+.title-line-2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), #c8860a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 20px rgba(240, 192, 96, 0.5));
+    letter-spacing: 0.1em;
+}
+
+.landing-subtitle {
+    font-family: 'Crimson Text', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: rgba(253, 246, 227, 0.7);
+    font-style: italic;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.05em;
+}
+
+.magic-btn {
+    position: relative;
+    padding: 1rem 2.8rem;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    letter-spacing: 0.15em;
+    color: var(--ink);
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, #d4a020 100%);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 20px rgba(240, 192, 96, 0.4), 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.magic-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 0 35px rgba(240, 192, 96, 0.65), 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.magic-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.btn-glow {
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 60%;
+    height: 200%;
+    background: rgba(255,255,255,0.3);
+    transform: skewX(-20deg);
+    animation: btnSheen 3s ease-in-out infinite;
+}
+
+@keyframes btnSheen {
+    0%, 70%, 100% { left: -60%; opacity: 0; }
+    20% { left: 110%; opacity: 1; }
+}
+
+/* =========================================
+   MASAL LİSTESİ
+   ========================================= */
+#scene-list {
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding-bottom: 2rem;
+}
+
+.list-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 2rem;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.list-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 600;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(240, 192, 96, 0.5);
+    letter-spacing: 0.2em;
+}
+
+.stories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.8rem;
+    padding: 1rem 3rem 2rem;
+    width: 100%;
+    max-width: 1100px;
+    z-index: 10;
+}
+
+.story-card {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    animation: cardFadeIn 0.5s ease forwards;
+    opacity: 0;
+}
+
+@keyframes cardFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.story-card:hover {
+    transform: translateY(-8px);
+}
+
+.card-book {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 4px 12px 12px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        -4px 0 0 rgba(0,0,0,0.3),
+        0 8px 30px rgba(0,0,0,0.6),
+        inset 4px 0 10px rgba(255,255,255,0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.story-card:hover .card-book {
+    box-shadow:
+        -4px 0 0 rgba(0,0,0,0.3),
+        0 15px 40px rgba(0,0,0,0.7),
+        0 0 30px rgba(240, 192, 96, 0.2),
+        inset 4px 0 10px rgba(255,255,255,0.08);
+}
+
+.card-book::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 14px;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0.05) 50%, transparent);
+    border-radius: 4px 0 0 4px;
+}
+
+.card-book::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 0.8rem;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+}
+
+.card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    line-height: 1.4;
+    letter-spacing: 0.05em;
+}
+
+.card-number {
+    position: absolute;
+    bottom: 0.6rem;
+    right: 0.8rem;
+    font-family: 'Crimson Text', serif;
+    font-size: 0.75rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.4);
+}
+
+/* =========================================
+   GERİ BUTONU
+   ========================================= */
+.back-btn {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 20;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    background: rgba(10, 5, 30, 0.6);
+    border: 1px solid rgba(240, 192, 96, 0.3);
+    border-radius: 30px;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+}
+
+.back-btn:hover {
+    background: rgba(240, 192, 96, 0.15);
+    border-color: rgba(240, 192, 96, 0.6);
+    color: var(--gold-light);
+}
+
+.reader-back {
+    top: 1rem;
+    left: 1rem;
+}
+
+/* =========================================
+   KİTAP OKUYUCU
+   ========================================= */
+#scene-reader {
+    justify-content: center;
+}
+
+.book-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    padding: 4rem 1rem 1rem;
+    z-index: 10;
+}
+
+.book-wrapper {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    width: min(900px, 95vw);
+    height: min(580px, 65vh);
+    filter: drop-shadow(0 20px 60px rgba(0,0,0,0.8));
+}
+
+/* =========================================
+   KİTAP SAYFALARI
+   ========================================= */
+.book-page {
+    flex: 1;
+    background: var(--parchment);
+    position: relative;
+    overflow: hidden;
+}
+
+.page-left {
+    border-radius: 6px 0 0 6px;
+    background: linear-gradient(to right, #ecdfc0, var(--parchment) 15%);
+    box-shadow: inset -5px 0 15px rgba(0,0,0,0.05);
+}
+
+.page-right {
+    border-radius: 0 6px 6px 0;
+    background: linear-gradient(to left, #ecdfc0, var(--parchment) 15%);
+    box-shadow: inset 5px 0 15px rgba(0,0,0,0.05);
+}
+
+.book-spine {
+    width: 20px;
+    flex-shrink: 0;
+    background: linear-gradient(to right,
+        #1a0a30 0%,
+        #2a1050 30%,
+        #1a0a30 50%,
+        #0d0520 100%
+    );
+    box-shadow:
+        2px 0 8px rgba(0,0,0,0.5),
+        -2px 0 8px rgba(0,0,0,0.5),
+        inset 1px 0 3px rgba(255,255,255,0.05);
+    z-index: 5;
+}
+
+.page-inner {
+    position: absolute;
+    inset: 0;
+    padding: 2rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Süsleme köşeleri */
+.page-decor {
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M2,2 L2,20 Q2,38 20,38' fill='none' stroke='%23704214' stroke-width='1.5'/%3E%3Ccircle cx='5' cy='5' r='2' fill='%23704214'/%3E%3Ccircle cx='20' cy='20' r='1.5' fill='%23704214' opacity='0.5'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.top-left  { top: 10px; left: 10px; }
+.top-right { top: 10px; right: 10px; transform: scaleX(-1); }
+.bottom-right { bottom: 10px; right: 10px; transform: rotate(180deg); }
+.bottom-left  { bottom: 10px; left: 10px; transform: scaleY(-1); }
+
+.page-text {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.page-text .story-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(112, 66, 20, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 600;
+}
+
+.page-text p {
+    font-family: 'Crimson Text', serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    line-height: 1.75;
+    color: var(--ink-light);
+    margin-bottom: 0.8em;
+    text-align: justify;
+    hyphens: auto;
+}
+
+.page-text p:first-of-type::first-letter {
+    font-family: 'Cinzel', serif;
+    font-size: 2.8em;
+    float: left;
+    line-height: 0.8;
+    margin: 0.05em 0.08em 0 0;
+    color: #5a2d0c;
+    font-weight: 700;
+}
+
+.page-num {
+    text-align: center;
+    font-family: 'Crimson Text', serif;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: rgba(112, 66, 20, 0.4);
+    padding-top: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* =========================================
+   SAYFA ÇEVİRME ANİMASYONU
+   ========================================= */
+.flipper-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 15;
+    perspective: 2000px;
+    transform-style: preserve-3d;
+}
+
+.flipper-wrap-left {
+    right: auto;
+    left: 0;
+}
+
+.flipper {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform-origin: left center;
+    will-change: transform;
+}
+
+.flipper-wrap-left .flipper {
+    transform-origin: right center;
+}
+
+.flipper-front,
+.flipper-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    background: var(--parchment);
+    overflow: hidden;
+}
+
+.flipper-front {
+    border-radius: 0 6px 6px 0;
+    background: linear-gradient(to left, #ecdfc0, var(--parchment) 15%);
+    box-shadow: 5px 0 20px rgba(0,0,0,0.3);
+}
+
+.flipper-back {
+    border-radius: 6px 0 0 6px;
+    transform: rotateY(180deg);
+    background: linear-gradient(to right, #ecdfc0, var(--parchment) 15%);
+    box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+}
+
+.flipper-wrap-left .flipper-front {
+    border-radius: 6px 0 0 6px;
+    background: linear-gradient(to right, #ecdfc0, var(--parchment) 15%);
+    box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+}
+
+.flipper-wrap-left .flipper-back {
+    border-radius: 0 6px 6px 0;
+    background: linear-gradient(to left, #ecdfc0, var(--parchment) 15%);
+    box-shadow: 5px 0 20px rgba(0,0,0,0.2);
+}
+
+/* Gölge efekti sayfa çevirirken */
+.flipper-front::after,
+.flipper-back::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    pointer-events: none;
+}
+
+.flipper-front::after {
+    left: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.12), transparent);
+}
+
+.flipper-back::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(0,0,0,0.12), transparent);
+}
+
+/* =========================================
+   KİTAP KONTROLLERİ
+   ========================================= */
+.book-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 10;
+}
+
+.nav-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(240, 192, 96, 0.4);
+    background: rgba(10, 5, 30, 0.7);
+    color: var(--gold);
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: rgba(240, 192, 96, 0.2);
+    border-color: rgba(240, 192, 96, 0.7);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(240, 192, 96, 0.3);
+}
+
+.nav-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.spread-counter {
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: rgba(253, 246, 227, 0.6);
+    min-width: 80px;
+    text-align: center;
+    letter-spacing: 0.1em;
+}
+
+/* =========================================
+   KAPAK SAYFASI (ilk sayfa, sol boş)
+   ========================================= */
+.cover-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.cover-page .cover-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.cover-page .cover-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.cover-page .cover-subtitle {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(44, 26, 14, 0.5);
+}
+
+.cover-page .cover-ornament {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    color: rgba(112, 66, 20, 0.4);
+    letter-spacing: 0.3em;
+}
+
+/* Son sayfa */
+.end-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: var(--ink-light);
+}
+
+.end-page .end-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.end-page .end-fin {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    opacity: 0.5;
+    margin-top: 1rem;
+}
+
+/* =========================================
+   YÜKLEME / GEÇİŞ
+   ========================================= */
+.scene {
+    transition: opacity 0.7s ease;
+}
+
+/* =========================================
+   RESPONSIVE - MOBİL
+   ========================================= */
+@media (max-width: 640px) {
+    .book-wrapper {
+        height: min(500px, 70vh);
+    }
+
+    /* Mobilde tek sayfa göster */
+    .page-left {
+        display: none;
+    }
+
+    .book-spine {
+        display: none;
+    }
+
+    .page-right {
+        border-radius: 6px;
+    }
+
+    .flipper-wrap {
+        width: 100%;
+        right: 0;
+    }
+
+    .stories-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        padding: 1rem 1.5rem;
+        gap: 1.2rem;
+    }
+
+    .book-area {
+        padding-top: 4.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-line-1 { font-size: 1.6rem; }
+    .title-line-2 { font-size: 2rem; }
+    .dear-text { font-size: 1.2rem; }
+    .landing-subtitle { font-size: 0.95rem; }
+}
