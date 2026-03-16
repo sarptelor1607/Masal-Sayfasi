@@ -31,7 +31,7 @@ Tam o sırada ileride yumuşak bir ışık gördü.
 
 Işığa doğru yaklaştığında, ay ışığının altında duran bir kız fark etti.
 
-Kızın uzun saçları omuzlarından aşağı dalga dalga dökülüyordu. Saçlarının rengi ay ışığında altın gibi parlıyordu ama içinde koyu kahverenginin sıcak tonları saklıydı. Boyu zarifti, yaklaşık Sarp’ın omzuna geliyordu.
+Kızın uzun saçları omuzlarından aşağı dalga dalga dökülüyordu. Saçlarının rengi ay ışığında altın gibi parlıyordu ama içinde koyu kahverenginin sıcak tonları saklıydı.
 
 Bu kız Ece idi.
 
@@ -87,6 +87,91 @@ Bu, Sarp, Ece ve Sushi’nin ilk masalıydı.
 
 Ve yıldızlara bakılırsa…
 önlerinde daha anlatılacak çok macera vardı.`
+    },
+    {
+        id: 2,
+        title: "Ece ve Güzeller Güzeli Saçları",
+        icon: "⭐",
+        coverColor: "#206c6c",
+        content: `Bir varmış, bir yokmuş.
+Eski zamanların birinde, yemyeşil tepelerle çevrili, cennet gibi bir vadide küçük bir krallık varmış. Bu krallığı halkın çok sevdiği iyi kalpli bir kral ile kraliçe yönetirmiş.
+
+Bir gün kraliçe bir çocuk dünyaya getirmek üzereyken ağır bir hastalığa yakalanmış. Sarayın doktorları ne yaptıysa kraliçeyi iyileştiremiyormuş.
+
+En sonunda bilge bir doktor demiş ki:
+“Kraliçeyi iyileştirecek tek şey Kahve Rampion Çiçeği.”
+
+Bütün krallık seferber olmuş. Askerler, köylüler ve gezginler günlerce ormanlarda bu mucizevi çiçeği aramış.
+
+En sonunda ormanın derinliklerinde yaşayan bir cadı, yıllardır genç kalabilmek için sakladığı sihirli çiçeği bulmuş. Çiçek altın sarısıymış ve güneş ışığında adeta parlıyormuş.
+
+Sarayda çiçek kaynatılarak kraliçeye içirilmiş. Kısa süre sonra mucize gerçekleşmiş: kraliçe iyileşmiş ve çok geçmeden dünya güzeli bir kız çocuğu dünyaya getirmiş.
+
+Bebeğin saçları, çiçeğin rengini andıran harika bir kahve tonuymuş; gözleri derin ve etkileyici, teni ise buğday gibi yumuşakmış. Kral ve kraliçe bu güzel bebeğe Ece adını vermişler.
+
+Krallık büyük bir sevinçle dolmuş, herkes Ece’nin hikâyesini konuşmuş.
+
+Ama ormanın derinliklerinde yaşlı cadı çok öfkelenmiş. Çiçek artık yokmuş ve onun gençleşme planı bozulmuş. Cadı, Ece’nin saçlarının sihirli olduğunu fark etmiş ve onu kimsenin bulamayacağı bir kuleye götürmüş. Cadı, Ece’nin saçlarını her gün tarayarak gençliğini koruyormuş.
+
+Ece yıllar boyunca büyümüş; uzun, dalga dalga saçları sırtından aşağı dökülüyormuş ve güneş ışığında çiçeğin rengiyle eşleşen harika kahve tonunda parlıyormuş. Ama cadı ona dışarı çıkmayı yasaklamış, bu yüzden Ece hayatı boyunca kuleden dışarı adım atmamış.
+
+Ece, yıllar boyunca kulede yalnız başınaymış. Günlerini resim yaparak, şarkılar söyleyerek ve küçük oyunlarla geçiriyormuş. Kapısı bile olmayan bu yüksek kulede büyümüş, güzelleşmiş ve tam 16 yaşına gelmiş.
+
+Bir gün Ece, kendisini büyüten cadıya artık büyüdüğünü ve dışarı çıkmak istediğini söylemiş. Ama cadı, Ece’nin saçlarındaki sihri kullanarak gençliğini koruduğu için onu asla serbest bırakmayı düşünmemiş.
+
+Bir sabah Ece, kuledeki küçük penceresine oturmuş ve kulenin dışındaki dünyayı hayal ederek şarkılar söylemeye başlamış.
+
+O sırada gizli ormanın yakınından geçen genç bir delikanlı, Ece’nin yumuşak ve büyüleyici şarkı sesini duymuş. Bu genç, Sarp imiş.
+
+Sarp sesin geldiği yönü bir türlü bulamıyormuş. Sonunda ağaçları ve uzun bitkileri yara yara ilerlemeye karar vermiş. Bir süre sonra sık çalıların ve dikenlerin arasında, gizli ormanın derinliklerinde yüksek kuleyi fark etmiş.
+
+Kulenin minik penceresinde şarkı söyleyen Ece’yi gören Sarp, hemen onunla konuşmak istemiş. Ama o sırada kulenin altında, Ece’yi gözetleyen cadıyı fark etmiş.
+
+Cadı kuleye seslenmiş:
+
+— “Ece, Ece… uzat o güzeller güzeli saçlarını!”
+
+Ece, cadının sesini duyunca saçlarını aşağıya doğru sarkıtmış. Uzun, parlak ve çiçeğin rengiyle eşleşen harika kahve tonundaki saçları kule duvarından aşağı akıyormuş.
+
+Sarp, çalıların arasından şaşkın bakışlarla Ece’yi izlemiş. Cadı saçlara tutunarak kuleye tırmanmış.
+
+Ertesi gün, cadı kuleden ayrılır ayrılmaz Sarp saklandığı yerden çıkmış ve sesini cadınınkine benzeterek Ece’ye seslenmiş:
+
+— “Ece, Ece… uzat saçlarını!”
+
+Ece, her zamanki gibi saçlarını aşağı sarkıtmış. Sarp, heyecanla saçlara tutunmuş ve dikkatlice kuleye tırmanmış.
+
+Ece, pencereye ulaştığında karşısında cadı yerine Sarp’ı görünce çok korkmuş. Hayatı boyunca annesi gibi bildiği cadı dışında kimseyi görmemişmiş.
+
+Bunu fark eden Sarp hemen demiş:
+— “Lütfen benden korkma, sana asla zarar vermem. Sadece güzel sesini duydum ve seni görmek istedim.”
+
+Ece, Sarp’ın kibar ve açık sözlü tavırlarından etkilenmiş. Kısa süre içinde sohbet etmeye başlamışlar, şakalaşmışlar ve Sarp’ın dış dünyayı anlattığı hikâyeler Ece’nin merakını artırmış. Sarp, o günden sonra her gün kuleye gelmeye başlamış. İkisi çok iyi arkadaş olmuş, Ece onunla dışarıya çıkmak istemiş ama cadıdan çekindiği için cesaret edememiş.
+
+Bir gün cadı ormandan erken dönmüş ve kuleden Sarp’ı inerken görmüş. Çok sinirlenmiş ve Sarp uzaklaştıktan hemen sonra Ece’nin yanına çıkmış.
+— “Bir daha asla kimseyle görüşmeyeceksin!” diye bağırmış.
+
+Ertesi gün Sarp yine aynı saatte kuleye gelmiş, ama bu kez Ece cevap verememiş. Meraklanan Sarp, kuleye tırmanmaya karar vermiş. Kule çok yüksekmiş ve tepesinde cadı onu bekliyormuş. Sarp içeri girer girmez cadı ona saldırmış ve Sarp yaralanmış.
+
+Cadı, Ece’yi bir daha kimsenin bulamayacağı bir yere götürmeye karar vermiş. Ama Sarp’ın yaralı hâlini gören Ece, cadıya yalvarmaya başlamış:
+
+— “Seninle geleceğim ve bir daha kaçmaya çalışmayacağım. Lütfen Sarp’ı saçlarımın sihriyle iyileştirmeme izin ver, sonra nereye istersen gidelim…”
+
+Cadı, Ece’nin sürekli kaçmaya çalışırsa onunla baş edemeyeceğini bildiği için isteğini kabul etmiş.
+
+Ece şarkısını söylemeye başlamış ve saçları, çiçeğin rengini andıran harika kahve tonunda ışıldayarak Sarp’ın yaralarını iyileştirmeye başlamış. Ancak Sarp, Ece’nin cadıyla gitmesini istememiş ve tek bir hareketle Ece’nin saçlarını kesmiş.
+
+Saçları bir anda tüm pırıltısını ve sihrini kaybetmiş. Ama Ece’nin kısa saçlı hâli bile güzelliğinden hiçbir şey kaybetmemiş; hâlâ ışıldayan gözleri ve zarif duruşuyla büyüleyiciymiş.
+
+Bunu gören cadı, saçları geri almak için Sarp’a engel olmak istemiş ama o sırada ayağı saçlara dolanmış ve kuleden aşağı düşmüş.
+
+Sarp hâlâ biraz yaralıymış. Ece, sihrinin artık kaybolduğunu düşünerek ağlamaya başlamış ve Sarp’a yardım edemeyeceğini sanmış. Tam o sırada Ece’nin tek bir damla gözyaşı Sarp’ın yanağına düşmüş. Ve sihir yeniden ortaya çıkmış: Sarp iyileşmiş.
+
+İkisi birlikte kuleden çıkmışlar. Ece gördüğü her şeye hayran kalmış ve dışarıda özgür olmaktan büyük mutluluk duymuş.
+
+Hikâyeleri tüm ülkede hızla yayılmış. Ece ve Sarp’ın, kaybolan prenses ve cesur genç delikanlı oldukları anlaşılmış. Kral ve kraliçe kızlarını görünce sevinçten havalara uçmuş, Sarp’a minnettarlıklarını ifade etmişler.
+
+Kısa süre sonra Ece ve Sarp, düğün hazırlıklarına başlamış. Tüm ülkede çanlar çalmış, halk kutlamalar yapmaya başlamış. Ece ve Sarp, harika bir düğünle evlenmişler ve sonsuza kadar mutlu yaşamışlar.`
     }
 ];
 
