@@ -178,7 +178,7 @@ Kısa süre sonra Ece ve Sarp, düğün hazırlıklarına başlamış. Tüm ülk
 // =========================================
 //   SAYFA BÖLME AYARLARI
 // =========================================
-const CHARS_PER_PAGE = 580; // Her sayfaya düşen yaklaşık karakter
+const CHARS_PER_PAGE = 340; // Her sayfaya düşen yaklaşık karakter
 
 // =========================================
 //   DURUM
@@ -191,7 +191,10 @@ let isFlipping = false;
 let isMobile = false;
 
 function checkMobile() {
-    return window.innerWidth <= 640;
+    // Sol sayfa DOM'da gizliyse mobiliz — CSS breakpoint ile her zaman senkron
+    const leftPage = document.getElementById('page-left');
+    if (!leftPage) return window.innerWidth <= 640;
+    return getComputedStyle(leftPage).display === 'none';
 }
 
 // =========================================
@@ -706,6 +709,16 @@ window.addEventListener('DOMContentLoaded', () => {
     bindButtons();
 
     window.addEventListener('resize', () => {
-        isMobile = window.innerWidth <= 640;
+        const wasMobile = isMobile;
+        isMobile = checkMobile();
+        if (wasMobile !== isMobile && pages.length > 0) {
+            // Mod değişti — pozisyonu senkronize et
+            if (isMobile) {
+                currentPage = currentSpread * 2;
+            } else {
+                currentSpread = Math.floor(currentPage / 2);
+            }
+            renderSpread();
+        }
     });
 });
