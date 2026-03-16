@@ -184,10 +184,15 @@ const CHARS_PER_PAGE = 580; // Her sayfaya düşen yaklaşık karakter
 //   DURUM
 // =========================================
 let currentStoryIndex = null;
-let pages = [];       // Kitap sayfaları (HTML string[])
-let currentSpread = 0; // Hangi çift sayfadayız
+let pages = [];        // Kitap sayfaları (HTML string[])
+let currentSpread = 0; // Desktop: hangi çift sayfadayız
+let currentPage = 0;   // Mobil: hangi tekil sayfadayız
 let isFlipping = false;
 let isMobile = false;
+
+function checkMobile() {
+    return window.innerWidth <= 640;
+}
 
 // =========================================
 //   YILDIZ ANİMASYONU
@@ -403,6 +408,7 @@ function openStory(storyIndex) {
     pages = buildPages(story);
 
     currentSpread = 0;
+    currentPage = 0;
     isFlipping = false;
 
     renderSpread();
@@ -493,38 +499,36 @@ function getPageHtml(index) {
 //   SPREAD RENDER
 // =========================================
 function renderSpread() {
-    isMobile = window.innerWidth <= 640;
+    isMobile = checkMobile();
+    if (isMobile) {
+        renderMobile();
+    } else {
+        renderDesktop();
+    }
+}
 
+function renderDesktop() {
     const li = currentSpread * 2;
     const ri = currentSpread * 2 + 1;
     const totalSpreads = Math.ceil(pages.length / 2);
 
-    // Sol sayfa
-    const leftEl = document.getElementById('text-left');
-    const leftNum = document.getElementById('num-left');
-    if (leftEl) {
-        leftEl.innerHTML = getPageHtml(li);
-        leftNum.textContent = li > 0 ? li : '';
-    }
+    document.getElementById('text-left').innerHTML = getPageHtml(li);
+    document.getElementById('num-left').textContent = li > 0 ? li : '';
+    document.getElementById('text-right').innerHTML = getPageHtml(ri);
+    document.getElementById('num-right').textContent = (ri < pages.length && ri > 0) ? ri : '';
 
-    // Sağ sayfa
-    const rightEl = document.getElementById('text-right');
-    const rightNum = document.getElementById('num-right');
-    if (rightEl) {
-        rightEl.innerHTML = getPageHtml(ri);
-        rightNum.textContent = (ri < pages.length && ri > 0) ? ri : '';
-    }
+    document.getElementById('spread-counter').textContent = `${currentSpread + 1} / ${totalSpreads}`;
+    document.getElementById('btn-prev').disabled = currentSpread === 0;
+    document.getElementById('btn-next').disabled = currentSpread >= totalSpreads - 1;
+}
 
-    // Kontroller
-    const counter = document.getElementById('spread-counter');
-    if (counter) {
-        counter.textContent = `${currentSpread + 1} / ${totalSpreads}`;
-    }
+function renderMobile() {
+    document.getElementById('text-right').innerHTML = getPageHtml(currentPage);
+    document.getElementById('num-right').textContent = currentPage > 0 ? currentPage + 1 : '';
 
-    const prevBtn = document.getElementById('btn-prev');
-    const nextBtn = document.getElementById('btn-next');
-    if (prevBtn) prevBtn.disabled = currentSpread === 0;
-    if (nextBtn) nextBtn.disabled = currentSpread >= totalSpreads - 1;
+    document.getElementById('spread-counter').textContent = `${currentPage + 1} / ${pages.length}`;
+    document.getElementById('btn-prev').disabled = currentPage === 0;
+    document.getElementById('btn-next').disabled = currentPage >= pages.length - 1;
 }
 
 // =========================================
@@ -532,112 +536,117 @@ function renderSpread() {
 // =========================================
 function goNext() {
     if (isFlipping) return;
+    if (checkMobile()) { goNextMobile(); return; }
+
     const totalSpreads = Math.ceil(pages.length / 2);
     if (currentSpread >= totalSpreads - 1) return;
-
     isFlipping = true;
 
     const nextLi = (currentSpread + 1) * 2;
     const nextRi = (currentSpread + 1) * 2 + 1;
     const currRi = currentSpread * 2 + 1;
 
-    // Flip front = mevcut sağ sayfa
     document.getElementById('flip-fwd-front').innerHTML = getPageHtml(currRi);
-    // Flip back = sonraki sol sayfa
-    document.getElementById('flip-fwd-back').innerHTML = getPageHtml(nextLi);
+    document.getElementById('flip-fwd-back').innerHTML  = getPageHtml(nextLi);
+    document.getElementById('text-right').innerHTML     = getPageHtml(nextRi);
+    document.getElementById('num-right').textContent    = (nextRi < pages.length && nextRi > 0) ? nextRi : '';
 
-    // Sağ sayfa arka plana sonraki sağ sayfayı göster
-    document.getElementById('text-right').innerHTML = getPageHtml(nextRi);
-    document.getElementById('num-right').textContent = (nextRi < pages.length && nextRi > 0) ? nextRi : '';
-
-    const wrapper = document.getElementById('flipper-fwd');
-    const flipper = document.getElementById('flipper-fwd-inner');
-
-    wrapper.style.display = 'block';
-    flipper.style.transition = 'none';
-    flipper.style.transform = 'rotateY(0deg)';
-
-    // Kısa gecikme sonra animasyonu başlat
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            flipper.style.transition = 'transform 0.75s cubic-bezier(0.645, 0.045, 0.355, 1.000)';
-            flipper.style.transform = 'rotateY(-180deg)';
-        });
-    });
-
-    setTimeout(() => {
+    flipAnimate('flipper-fwd', 'flipper-fwd-inner', 'rotateY(0deg)', 'rotateY(-180deg)', () => {
         currentSpread++;
-        wrapper.style.display = 'none';
-        flipper.style.transition = 'none';
-        flipper.style.transform = 'rotateY(0deg)';
-
-        // Sol sayfayı da güncelle
-        document.getElementById('text-left').innerHTML = getPageHtml(nextLi);
-        document.getElementById('num-left').textContent = nextLi > 0 ? nextLi : '';
-
+        document.getElementById('text-left').innerHTML  = getPageHtml(currentSpread * 2);
+        document.getElementById('num-left').textContent = currentSpread * 2 > 0 ? currentSpread * 2 : '';
         updateControls();
-        isFlipping = false;
-    }, 780);
+    });
+}
+
+function goNextMobile() {
+    if (currentPage >= pages.length - 1) return;
+    isFlipping = true;
+
+    document.getElementById('flip-fwd-front').innerHTML = getPageHtml(currentPage);
+    document.getElementById('flip-fwd-back').innerHTML  = getPageHtml(currentPage + 1);
+    document.getElementById('text-right').innerHTML     = getPageHtml(currentPage + 1);
+
+    flipAnimate('flipper-fwd', 'flipper-fwd-inner', 'rotateY(0deg)', 'rotateY(-180deg)', () => {
+        currentPage++;
+        renderMobile();
+    });
 }
 
 // =========================================
 //   SAYFA ÇEVİRME - GERİ
 // =========================================
 function goPrev() {
-    if (isFlipping || currentSpread <= 0) return;
-
+    if (isFlipping) return;
+    if (checkMobile()) { goPrevMobile(); return; }
+    if (currentSpread <= 0) return;
     isFlipping = true;
 
     const prevLi = (currentSpread - 1) * 2;
     const prevRi = (currentSpread - 1) * 2 + 1;
     const currLi = currentSpread * 2;
 
-    // Flip front = mevcut sol sayfa
     document.getElementById('flip-bwd-front').innerHTML = getPageHtml(currLi);
-    // Flip back = önceki sağ sayfa
-    document.getElementById('flip-bwd-back').innerHTML = getPageHtml(prevRi);
+    document.getElementById('flip-bwd-back').innerHTML  = getPageHtml(prevRi);
+    document.getElementById('text-left').innerHTML      = getPageHtml(prevLi);
+    document.getElementById('num-left').textContent     = prevLi > 0 ? prevLi : '';
 
-    // Sol sayfa arka plana önceki sol sayfayı göster
-    document.getElementById('text-left').innerHTML = getPageHtml(prevLi);
-    document.getElementById('num-left').textContent = prevLi > 0 ? prevLi : '';
+    flipAnimate('flipper-bwd', 'flipper-bwd-inner', 'rotateY(180deg)', 'rotateY(0deg)', () => {
+        currentSpread--;
+        document.getElementById('text-right').innerHTML  = getPageHtml(currentSpread * 2 + 1);
+        document.getElementById('num-right').textContent = (currentSpread * 2 + 1 < pages.length) ? currentSpread * 2 + 1 : '';
+        updateControls();
+    });
+}
 
-    const wrapper = document.getElementById('flipper-bwd');
-    const flipper = document.getElementById('flipper-bwd-inner');
+function goPrevMobile() {
+    if (currentPage <= 0) return;
+    isFlipping = true;
+
+    document.getElementById('flip-bwd-front').innerHTML = getPageHtml(currentPage);
+    document.getElementById('flip-bwd-back').innerHTML  = getPageHtml(currentPage - 1);
+    document.getElementById('text-right').innerHTML     = getPageHtml(currentPage - 1);
+
+    flipAnimate('flipper-bwd', 'flipper-bwd-inner', 'rotateY(180deg)', 'rotateY(0deg)', () => {
+        currentPage--;
+        renderMobile();
+    });
+}
+
+// Ortak flip yardımcısı
+function flipAnimate(wrapperId, flipperId, fromTransform, toTransform, onDone) {
+    const wrapper = document.getElementById(wrapperId);
+    const flipper = document.getElementById(flipperId);
 
     wrapper.style.display = 'block';
     flipper.style.transition = 'none';
-    flipper.style.transform = 'rotateY(180deg)';
+    flipper.style.transform = fromTransform;
 
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
             flipper.style.transition = 'transform 0.75s cubic-bezier(0.645, 0.045, 0.355, 1.000)';
-            flipper.style.transform = 'rotateY(0deg)';
+            flipper.style.transform = toTransform;
         });
     });
 
     setTimeout(() => {
-        currentSpread--;
         wrapper.style.display = 'none';
         flipper.style.transition = 'none';
-        flipper.style.transform = 'rotateY(180deg)';
-
-        document.getElementById('text-right').innerHTML = getPageHtml(currentSpread * 2 + 1);
-        document.getElementById('num-right').textContent =
-            (currentSpread * 2 + 1 < pages.length) ? currentSpread * 2 + 1 : '';
-
-        updateControls();
+        flipper.style.transform = fromTransform;
+        onDone();
         isFlipping = false;
     }, 780);
 }
 
 function updateControls() {
-    const totalSpreads = Math.ceil(pages.length / 2);
-    const counter = document.getElementById('spread-counter');
-    if (counter) counter.textContent = `${currentSpread + 1} / ${totalSpreads}`;
-    const prevBtn = document.getElementById('btn-prev');
-    const nextBtn = document.getElementById('btn-next');
-    if (prevBtn) prevBtn.disabled = currentSpread === 0;
-    if (nextBtn) nextBtn.disabled = currentSpread >= totalSpreads - 1;
+    if (checkMobile()) {
+        renderMobile();
+    } else {
+        const totalSpreads = Math.ceil(pages.length / 2);
+        document.getElementById('spread-counter').textContent = `${currentSpread + 1} / ${totalSpreads}`;
+        document.getElementById('btn-prev').disabled = currentSpread === 0;
+        document.getElementById('btn-next').disabled = currentSpread >= totalSpreads - 1;
+    }
 }
 
 // =========================================

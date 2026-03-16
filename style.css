@@ -783,11 +783,20 @@ html, body {
 
     .page-right {
         border-radius: 6px;
+        flex: 1;
     }
 
-    .flipper-wrap {
+    /* Mobilde her iki flipper da tam genişlik kaplar */
+    .flipper-wrap,
+    .flipper-wrap-left {
         width: 100%;
+        left: 0;
         right: 0;
+    }
+
+    .flipper-front,
+    .flipper-back {
+        border-radius: 6px;
     }
 
     .stories-grid {
